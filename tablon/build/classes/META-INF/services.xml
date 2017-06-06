@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.7.4  Built on : Oct 21, 2016 (10:47:34 BST) -->
+<serviceGroup>
+    <service name="Tablon" class="org.apache.ws.axis2.TablonSkeleton">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="org.apache.ws.axis2.TablonMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">org.apache.ws.axis2.TablonSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="obey" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.apache.org/axis2">
+            <actionMapping>urn:obey</actionMapping>
+            <outputActionMapping>urn:obeyResponse</outputActionMapping>
+        </operation>
+        <operation name="command" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://ws.apache.org/axis2">
+            <actionMapping>urn:command</actionMapping>
+            <outputActionMapping>urn:commandResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://ws.apache.org/axis2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" targetNamespace="http://ws.apache.org/axis2">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.apache.org/axis2">
+            <xs:element name="obey">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="secreto" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="obeyResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="command">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="orden" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="secreto" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="commandResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="obeyRequest">
+        <wsdl:part name="parameters" element="ns:obey"/>
+    </wsdl:message>
+    <wsdl:message name="obeyResponse">
+        <wsdl:part name="parameters" element="ns:obeyResponse"/>
+    </wsdl:message>
+    <wsdl:message name="commandRequest">
+        <wsdl:part name="parameters" element="ns:command"/>
+    </wsdl:message>
+    <wsdl:message name="commandResponse">
+        <wsdl:part name="parameters" element="ns:commandResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="TablonPortType">
+        <wsdl:operation name="obey">
+            <wsdl:input message="ns:obeyRequest" wsaw:Action="urn:obey"/>
+            <wsdl:output message="ns:obeyResponse" wsaw:Action="urn:obeyResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="command">
+            <wsdl:input message="ns:commandRequest" wsaw:Action="urn:command"/>
+            <wsdl:output message="ns:commandResponse" wsaw:Action="urn:commandResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="TablonSoap11Binding" type="ns:TablonPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="obey">
+            <soap:operation soapAction="urn:obey" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="command">
+            <soap:operation soapAction="urn:command" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="TablonSoap12Binding" type="ns:TablonPortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="obey">
+            <soap12:operation soapAction="urn:obey" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="command">
+            <soap12:operation soapAction="urn:command" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="TablonHttpBinding" type="ns:TablonPortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="obey">
+            <http:operation location="obey"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="command">
+            <http:operation location="command"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="Tablon">
+        <wsdl:port name="TablonHttpSoap11Endpoint" binding="ns:TablonSoap11Binding">
+            <soap:address location="http://localhost:8080/axis2/services/Tablon"/>
+        </wsdl:port>
+        <wsdl:port name="TablonHttpSoap12Endpoint" binding="ns:TablonSoap12Binding">
+            <soap12:address location="http://localhost:8080/axis2/services/Tablon"/>
+        </wsdl:port>
+        <wsdl:port name="TablonHttpEndpoint" binding="ns:TablonHttpBinding">
+            <http:address location="http://localhost:8080/axis2/services/Tablon"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
