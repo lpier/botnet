@@ -1,4 +1,3 @@
-package bot;
 
 public class Orden {
 	private String accion;

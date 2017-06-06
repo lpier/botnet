@@ -1,4 +1,3 @@
-package bot;
 
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
@@ -19,7 +18,7 @@ public class Bot {
 	private static OMFactory omFactory = OMAbstractFactory.getOMFactory();
 	private static OMNamespace omNameSpace = omFactory.createOMNamespace("http://ws.apache.org/axis2", "nsTablon");
 	private static Options options = new Options();
-	private static String urlTablon = "http://192.168.0.24:7090/axis2/services/Tablon/";
+	private static String urlTablon = "http://192.168.0.13:7090/axis2/services/Tablon/";
 	private static String secreto = "bot";
 
 
