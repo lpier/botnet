@@ -53,10 +53,7 @@ public class Bot {
 			e.printStackTrace();
 		}
 
-		// Timer timer = new Timer();
-		// TimerTask busca = new TimerTask() {
-		// @Override
-		// public void run() {
+
 		options.setTo(new EndpointReference(urlTablon));
 		options.setAction("urn:obey");
 		options.activate(getConf());
@@ -82,15 +79,6 @@ public class Bot {
 			e.printStackTrace();
 		}
 
-		// if(!comando.equals("")){
-		// System.out.println("ENTRO AQUI!");
-		// timer.cancel();
-		// timer.purge();
-		// }
-
-		// }
-		// };
-		// timer.schedule(busca, 0, 10000);
 
 		return comando;
 	}
