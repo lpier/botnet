@@ -13,15 +13,32 @@ public interface TablonSkeletonInterface {
     /**
      * Auto generated method signature
      *
-     * @param obey
+     * @param getClave
      */
-    public org.apache.ws.axis2.ObeyResponse obey(org.apache.ws.axis2.Obey obey);
+    public org.apache.ws.axis2.GetClaveResponse getClave(
+        org.apache.ws.axis2.GetClave getClave);
 
     /**
      * Auto generated method signature
      *
-     * @param command
+     * @param getFirma
      */
-    public org.apache.ws.axis2.CommandResponse command(
-        org.apache.ws.axis2.Command command);
+    public org.apache.ws.axis2.GetFirmaResponse getFirma(
+        org.apache.ws.axis2.GetFirma getFirma);
+
+    /**
+     * Auto generated method signature
+     *
+     * @param setOrden
+     */
+    public org.apache.ws.axis2.SetOrdenResponse setOrden(
+        org.apache.ws.axis2.SetOrden setOrden);
+
+    /**
+     * Auto generated method signature
+     *
+     * @param getComando
+     */
+    public org.apache.ws.axis2.GetComandoResponse getComando(
+        org.apache.ws.axis2.GetComando getComando);
 }

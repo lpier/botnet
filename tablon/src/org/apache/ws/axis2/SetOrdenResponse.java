@@ -1,5 +1,5 @@
 /**
- * ObeyResponse.java
+ * SetOrdenResponse.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.7.4  Built on : Oct 21, 2016 (10:48:01 BST)
@@ -8,35 +8,25 @@ package org.apache.ws.axis2;
 
 
 /**
- *  ObeyResponse bean class
+ *  SetOrdenResponse bean class
  */
 @SuppressWarnings({"unchecked",
     "unused"
 })
-public class ObeyResponse implements org.apache.axis2.databinding.ADBBean {
+public class SetOrdenResponse implements org.apache.axis2.databinding.ADBBean {
     public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName("http://ws.apache.org/axis2",
-            "obeyResponse", "ns1");
+            "setOrdenResponse", "ns1");
 
     /**
      * field for _return
      */
-    protected java.lang.String local_return;
-
-    /*  This tracker boolean wil be used to detect whether the user called the set method
-     *   for this attribute. It will be used to determine whether to include this field
-     *   in the serialized XML
-     */
-    protected boolean local_returnTracker = false;
-
-    public boolean is_returnSpecified() {
-        return local_returnTracker;
-    }
+    protected boolean local_return;
 
     /**
      * Auto generated getter method
-     * @return java.lang.String
+     * @return boolean
      */
-    public java.lang.String get_return() {
+    public boolean get_return() {
         return local_return;
     }
 
@@ -44,9 +34,7 @@ public class ObeyResponse implements org.apache.axis2.databinding.ADBBean {
      * Auto generated setter method
      * @param param _return
      */
-    public void set_return(java.lang.String param) {
-        local_returnTracker = true;
-
+    public void set_return(boolean param) {
         this.local_return = param;
     }
 
@@ -91,29 +79,26 @@ public class ObeyResponse implements org.apache.axis2.databinding.ADBBean {
                     (namespacePrefix.trim().length() > 0)) {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    namespacePrefix + ":obeyResponse", xmlWriter);
+                    namespacePrefix + ":setOrdenResponse", xmlWriter);
             } else {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    "obeyResponse", xmlWriter);
+                    "setOrdenResponse", xmlWriter);
             }
         }
 
-        if (local_returnTracker) {
-            namespace = "http://ws.apache.org/axis2";
-            writeStartElement(null, namespace, "return", xmlWriter);
+        namespace = "http://ws.apache.org/axis2";
+        writeStartElement(null, namespace, "return", xmlWriter);
 
-            if (local_return == null) {
-                // write the nil attribute
-                writeAttribute("xsi",
-                    "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
-                    xmlWriter);
-            } else {
-                xmlWriter.writeCharacters(local_return);
-            }
-
-            xmlWriter.writeEndElement();
+        if (false) {
+            throw new org.apache.axis2.databinding.ADBException(
+                "return cannot be null!!");
+        } else {
+            xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                    local_return));
         }
+
+        xmlWriter.writeEndElement();
 
         xmlWriter.writeEndElement();
     }
@@ -333,9 +318,9 @@ public class ObeyResponse implements org.apache.axis2.databinding.ADBBean {
          * Postcondition: If this object is an element, the reader is positioned at its end element
          *                If this object is a complex type, the reader is positioned at the end element of its outer element
          */
-        public static ObeyResponse parse(
+        public static SetOrdenResponse parse(
             javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
-            ObeyResponse object = new ObeyResponse();
+            SetOrdenResponse object = new SetOrdenResponse();
 
             int event;
             javax.xml.namespace.QName currentQName = null;
@@ -367,12 +352,12 @@ public class ObeyResponse implements org.apache.axis2.databinding.ADBBean {
                         java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
                                     ":") + 1);
 
-                        if (!"obeyResponse".equals(type)) {
+                        if (!"setOrdenResponse".equals(type)) {
                             //find namespace for the prefix
                             java.lang.String nsUri = reader.getNamespaceContext()
                                                            .getNamespaceURI(nsPrefix);
 
-                            return (ObeyResponse) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
+                            return (SetOrdenResponse) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
                                 type, reader);
                         }
                     }
@@ -396,20 +381,24 @@ public class ObeyResponse implements org.apache.axis2.databinding.ADBBean {
                     nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
                             "nil");
 
-                    if (!"true".equals(nillableValue) &&
-                            !"1".equals(nillableValue)) {
-                        java.lang.String content = reader.getElementText();
-
-                        object.set_return(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                                content));
-                    } else {
-                        reader.getElementText(); // throw away text nodes if any.
+                    if ("true".equals(nillableValue) ||
+                            "1".equals(nillableValue)) {
+                        throw new org.apache.axis2.databinding.ADBException(
+                            "The element: " + "return" + "  cannot be null");
                     }
+
+                    java.lang.String content = reader.getElementText();
+
+                    object.set_return(org.apache.axis2.databinding.utils.ConverterUtil.convertToBoolean(
+                            content));
 
                     reader.next();
                 } // End of if for expected property start element
 
                 else {
+                    // 1 - A start element we are not expecting indicates an invalid parameter was passed
+                    throw new org.apache.axis2.databinding.ADBException(
+                        "Unexpected subelement " + reader.getName());
                 }
 
                 while (!reader.isStartElement() && !reader.isEndElement())

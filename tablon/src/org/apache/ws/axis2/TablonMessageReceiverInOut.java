@@ -38,33 +38,62 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
             if ((op.getName() != null) &&
                     ((methodName = org.apache.axis2.util.JavaUtils.xmlNameToJavaIdentifier(
                             op.getName().getLocalPart())) != null)) {
-                if ("obey".equals(methodName)) {
-                    org.apache.ws.axis2.ObeyResponse obeyResponse13 = null;
-                    org.apache.ws.axis2.Obey wrappedParam = (org.apache.ws.axis2.Obey) fromOM(msgContext.getEnvelope()
-                                                                                                        .getBody()
-                                                                                                        .getFirstElement(),
-                            org.apache.ws.axis2.Obey.class);
+                if ("getClave".equals(methodName)) {
+                    org.apache.ws.axis2.GetClaveResponse getClaveResponse25 = null;
+                    org.apache.ws.axis2.GetClave wrappedParam = (org.apache.ws.axis2.GetClave) fromOM(msgContext.getEnvelope()
+                                                                                                                .getBody()
+                                                                                                                .getFirstElement(),
+                            org.apache.ws.axis2.GetClave.class);
 
-                    obeyResponse13 = skel.obey(wrappedParam);
+                    getClaveResponse25 = skel.getClave(wrappedParam);
 
                     envelope = toEnvelope(getSOAPFactory(msgContext),
-                            obeyResponse13, false,
+                            getClaveResponse25, false,
                             new javax.xml.namespace.QName(
-                                "http://ws.apache.org/axis2", "obeyResponse"));
+                                "http://ws.apache.org/axis2", "getClaveResponse"));
                 } else
-                 if ("command".equals(methodName)) {
-                    org.apache.ws.axis2.CommandResponse commandResponse15 = null;
-                    org.apache.ws.axis2.Command wrappedParam = (org.apache.ws.axis2.Command) fromOM(msgContext.getEnvelope()
-                                                                                                              .getBody()
-                                                                                                              .getFirstElement(),
-                            org.apache.ws.axis2.Command.class);
+                 if ("getFirma".equals(methodName)) {
+                    org.apache.ws.axis2.GetFirmaResponse getFirmaResponse27 = null;
+                    org.apache.ws.axis2.GetFirma wrappedParam = (org.apache.ws.axis2.GetFirma) fromOM(msgContext.getEnvelope()
+                                                                                                                .getBody()
+                                                                                                                .getFirstElement(),
+                            org.apache.ws.axis2.GetFirma.class);
 
-                    commandResponse15 = skel.command(wrappedParam);
+                    getFirmaResponse27 = skel.getFirma(wrappedParam);
 
                     envelope = toEnvelope(getSOAPFactory(msgContext),
-                            commandResponse15, false,
+                            getFirmaResponse27, false,
                             new javax.xml.namespace.QName(
-                                "http://ws.apache.org/axis2", "commandResponse"));
+                                "http://ws.apache.org/axis2", "getFirmaResponse"));
+                } else
+                 if ("setOrden".equals(methodName)) {
+                    org.apache.ws.axis2.SetOrdenResponse setOrdenResponse29 = null;
+                    org.apache.ws.axis2.SetOrden wrappedParam = (org.apache.ws.axis2.SetOrden) fromOM(msgContext.getEnvelope()
+                                                                                                                .getBody()
+                                                                                                                .getFirstElement(),
+                            org.apache.ws.axis2.SetOrden.class);
+
+                    setOrdenResponse29 = skel.setOrden(wrappedParam);
+
+                    envelope = toEnvelope(getSOAPFactory(msgContext),
+                            setOrdenResponse29, false,
+                            new javax.xml.namespace.QName(
+                                "http://ws.apache.org/axis2", "setOrdenResponse"));
+                } else
+                 if ("getComando".equals(methodName)) {
+                    org.apache.ws.axis2.GetComandoResponse getComandoResponse31 = null;
+                    org.apache.ws.axis2.GetComando wrappedParam = (org.apache.ws.axis2.GetComando) fromOM(msgContext.getEnvelope()
+                                                                                                                    .getBody()
+                                                                                                                    .getFirstElement(),
+                            org.apache.ws.axis2.GetComando.class);
+
+                    getComandoResponse31 = skel.getComando(wrappedParam);
+
+                    envelope = toEnvelope(getSOAPFactory(msgContext),
+                            getComandoResponse31, false,
+                            new javax.xml.namespace.QName(
+                                "http://ws.apache.org/axis2",
+                                "getComandoResponse"));
                 } else {
                     throw new java.lang.RuntimeException("method not found");
                 }
@@ -77,10 +106,11 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
     }
 
     //
-    private org.apache.axiom.om.OMElement toOM(org.apache.ws.axis2.Obey param,
-        boolean optimizeContent) throws org.apache.axis2.AxisFault {
+    private org.apache.axiom.om.OMElement toOM(
+        org.apache.ws.axis2.GetClave param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
         try {
-            return param.getOMElement(org.apache.ws.axis2.Obey.MY_QNAME,
+            return param.getOMElement(org.apache.ws.axis2.GetClave.MY_QNAME,
                 org.apache.axiom.om.OMAbstractFactory.getOMFactory());
         } catch (org.apache.axis2.databinding.ADBException e) {
             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -88,10 +118,10 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
     }
 
     private org.apache.axiom.om.OMElement toOM(
-        org.apache.ws.axis2.ObeyResponse param, boolean optimizeContent)
+        org.apache.ws.axis2.GetClaveResponse param, boolean optimizeContent)
         throws org.apache.axis2.AxisFault {
         try {
-            return param.getOMElement(org.apache.ws.axis2.ObeyResponse.MY_QNAME,
+            return param.getOMElement(org.apache.ws.axis2.GetClaveResponse.MY_QNAME,
                 org.apache.axiom.om.OMAbstractFactory.getOMFactory());
         } catch (org.apache.axis2.databinding.ADBException e) {
             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -99,10 +129,10 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
     }
 
     private org.apache.axiom.om.OMElement toOM(
-        org.apache.ws.axis2.Command param, boolean optimizeContent)
+        org.apache.ws.axis2.GetFirma param, boolean optimizeContent)
         throws org.apache.axis2.AxisFault {
         try {
-            return param.getOMElement(org.apache.ws.axis2.Command.MY_QNAME,
+            return param.getOMElement(org.apache.ws.axis2.GetFirma.MY_QNAME,
                 org.apache.axiom.om.OMAbstractFactory.getOMFactory());
         } catch (org.apache.axis2.databinding.ADBException e) {
             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -110,10 +140,54 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
     }
 
     private org.apache.axiom.om.OMElement toOM(
-        org.apache.ws.axis2.CommandResponse param, boolean optimizeContent)
+        org.apache.ws.axis2.GetFirmaResponse param, boolean optimizeContent)
         throws org.apache.axis2.AxisFault {
         try {
-            return param.getOMElement(org.apache.ws.axis2.CommandResponse.MY_QNAME,
+            return param.getOMElement(org.apache.ws.axis2.GetFirmaResponse.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        org.apache.ws.axis2.SetOrden param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(org.apache.ws.axis2.SetOrden.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        org.apache.ws.axis2.SetOrdenResponse param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(org.apache.ws.axis2.SetOrdenResponse.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        org.apache.ws.axis2.GetComando param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(org.apache.ws.axis2.GetComando.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        org.apache.ws.axis2.GetComandoResponse param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(org.apache.ws.axis2.GetComandoResponse.MY_QNAME,
                 org.apache.axiom.om.OMAbstractFactory.getOMFactory());
         } catch (org.apache.axis2.databinding.ADBException e) {
             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -122,7 +196,7 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
 
     private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
         org.apache.axiom.soap.SOAPFactory factory,
-        org.apache.ws.axis2.ObeyResponse param, boolean optimizeContent,
+        org.apache.ws.axis2.GetClaveResponse param, boolean optimizeContent,
         javax.xml.namespace.QName elementQName)
         throws org.apache.axis2.AxisFault {
         try {
@@ -130,7 +204,7 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
 
             emptyEnvelope.getBody()
                          .addChild(param.getOMElement(
-                    org.apache.ws.axis2.ObeyResponse.MY_QNAME, factory));
+                    org.apache.ws.axis2.GetClaveResponse.MY_QNAME, factory));
 
             return emptyEnvelope;
         } catch (org.apache.axis2.databinding.ADBException e) {
@@ -138,15 +212,15 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
         }
     }
 
-    private org.apache.ws.axis2.ObeyResponse wrapobey() {
-        org.apache.ws.axis2.ObeyResponse wrappedElement = new org.apache.ws.axis2.ObeyResponse();
+    private org.apache.ws.axis2.GetClaveResponse wrapgetClave() {
+        org.apache.ws.axis2.GetClaveResponse wrappedElement = new org.apache.ws.axis2.GetClaveResponse();
 
         return wrappedElement;
     }
 
     private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
         org.apache.axiom.soap.SOAPFactory factory,
-        org.apache.ws.axis2.CommandResponse param, boolean optimizeContent,
+        org.apache.ws.axis2.GetFirmaResponse param, boolean optimizeContent,
         javax.xml.namespace.QName elementQName)
         throws org.apache.axis2.AxisFault {
         try {
@@ -154,7 +228,7 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
 
             emptyEnvelope.getBody()
                          .addChild(param.getOMElement(
-                    org.apache.ws.axis2.CommandResponse.MY_QNAME, factory));
+                    org.apache.ws.axis2.GetFirmaResponse.MY_QNAME, factory));
 
             return emptyEnvelope;
         } catch (org.apache.axis2.databinding.ADBException e) {
@@ -162,8 +236,56 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
         }
     }
 
-    private org.apache.ws.axis2.CommandResponse wrapcommand() {
-        org.apache.ws.axis2.CommandResponse wrappedElement = new org.apache.ws.axis2.CommandResponse();
+    private org.apache.ws.axis2.GetFirmaResponse wrapgetFirma() {
+        org.apache.ws.axis2.GetFirmaResponse wrappedElement = new org.apache.ws.axis2.GetFirmaResponse();
+
+        return wrappedElement;
+    }
+
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
+        org.apache.axiom.soap.SOAPFactory factory,
+        org.apache.ws.axis2.SetOrdenResponse param, boolean optimizeContent,
+        javax.xml.namespace.QName elementQName)
+        throws org.apache.axis2.AxisFault {
+        try {
+            org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+
+            emptyEnvelope.getBody()
+                         .addChild(param.getOMElement(
+                    org.apache.ws.axis2.SetOrdenResponse.MY_QNAME, factory));
+
+            return emptyEnvelope;
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.ws.axis2.SetOrdenResponse wrapsetOrden() {
+        org.apache.ws.axis2.SetOrdenResponse wrappedElement = new org.apache.ws.axis2.SetOrdenResponse();
+
+        return wrappedElement;
+    }
+
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
+        org.apache.axiom.soap.SOAPFactory factory,
+        org.apache.ws.axis2.GetComandoResponse param, boolean optimizeContent,
+        javax.xml.namespace.QName elementQName)
+        throws org.apache.axis2.AxisFault {
+        try {
+            org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+
+            emptyEnvelope.getBody()
+                         .addChild(param.getOMElement(
+                    org.apache.ws.axis2.GetComandoResponse.MY_QNAME, factory));
+
+            return emptyEnvelope;
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.ws.axis2.GetComandoResponse wrapgetComando() {
+        org.apache.ws.axis2.GetComandoResponse wrappedElement = new org.apache.ws.axis2.GetComandoResponse();
 
         return wrappedElement;
     }
@@ -179,20 +301,36 @@ public class TablonMessageReceiverInOut extends org.apache.axis2.receivers.Abstr
     private java.lang.Object fromOM(org.apache.axiom.om.OMElement param,
         java.lang.Class type) throws org.apache.axis2.AxisFault {
         try {
-            if (org.apache.ws.axis2.Command.class.equals(type)) {
-                return org.apache.ws.axis2.Command.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            if (org.apache.ws.axis2.GetClave.class.equals(type)) {
+                return org.apache.ws.axis2.GetClave.Factory.parse(param.getXMLStreamReaderWithoutCaching());
             }
 
-            if (org.apache.ws.axis2.CommandResponse.class.equals(type)) {
-                return org.apache.ws.axis2.CommandResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            if (org.apache.ws.axis2.GetClaveResponse.class.equals(type)) {
+                return org.apache.ws.axis2.GetClaveResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
             }
 
-            if (org.apache.ws.axis2.Obey.class.equals(type)) {
-                return org.apache.ws.axis2.Obey.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            if (org.apache.ws.axis2.GetComando.class.equals(type)) {
+                return org.apache.ws.axis2.GetComando.Factory.parse(param.getXMLStreamReaderWithoutCaching());
             }
 
-            if (org.apache.ws.axis2.ObeyResponse.class.equals(type)) {
-                return org.apache.ws.axis2.ObeyResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            if (org.apache.ws.axis2.GetComandoResponse.class.equals(type)) {
+                return org.apache.ws.axis2.GetComandoResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (org.apache.ws.axis2.GetFirma.class.equals(type)) {
+                return org.apache.ws.axis2.GetFirma.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (org.apache.ws.axis2.GetFirmaResponse.class.equals(type)) {
+                return org.apache.ws.axis2.GetFirmaResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (org.apache.ws.axis2.SetOrden.class.equals(type)) {
+                return org.apache.ws.axis2.SetOrden.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (org.apache.ws.axis2.SetOrdenResponse.class.equals(type)) {
+                return org.apache.ws.axis2.SetOrdenResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
             }
         } catch (java.lang.Exception e) {
             throw org.apache.axis2.AxisFault.makeFault(e);

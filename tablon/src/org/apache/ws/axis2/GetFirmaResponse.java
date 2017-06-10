@@ -1,5 +1,5 @@
 /**
- * Obey.java
+ * GetFirmaResponse.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.7.4  Built on : Oct 21, 2016 (10:48:01 BST)
@@ -8,46 +8,46 @@ package org.apache.ws.axis2;
 
 
 /**
- *  Obey bean class
+ *  GetFirmaResponse bean class
  */
 @SuppressWarnings({"unchecked",
     "unused"
 })
-public class Obey implements org.apache.axis2.databinding.ADBBean {
+public class GetFirmaResponse implements org.apache.axis2.databinding.ADBBean {
     public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName("http://ws.apache.org/axis2",
-            "obey", "ns1");
+            "getFirmaResponse", "ns1");
 
     /**
-     * field for Secreto
+     * field for _return
      */
-    protected java.lang.String localSecreto;
+    protected javax.activation.DataHandler local_return;
 
     /*  This tracker boolean wil be used to detect whether the user called the set method
      *   for this attribute. It will be used to determine whether to include this field
      *   in the serialized XML
      */
-    protected boolean localSecretoTracker = false;
+    protected boolean local_returnTracker = false;
 
-    public boolean isSecretoSpecified() {
-        return localSecretoTracker;
+    public boolean is_returnSpecified() {
+        return local_returnTracker;
     }
 
     /**
      * Auto generated getter method
-     * @return java.lang.String
+     * @return javax.activation.DataHandler
      */
-    public java.lang.String getSecreto() {
-        return localSecreto;
+    public javax.activation.DataHandler get_return() {
+        return local_return;
     }
 
     /**
      * Auto generated setter method
-     * @param param Secreto
+     * @param param _return
      */
-    public void setSecreto(java.lang.String param) {
-        localSecretoTracker = true;
+    public void set_return(javax.activation.DataHandler param) {
+        local_returnTracker = true;
 
-        this.localSecreto = param;
+        this.local_return = param;
     }
 
     /**
@@ -91,25 +91,30 @@ public class Obey implements org.apache.axis2.databinding.ADBBean {
                     (namespacePrefix.trim().length() > 0)) {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    namespacePrefix + ":obey", xmlWriter);
+                    namespacePrefix + ":getFirmaResponse", xmlWriter);
             } else {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    "obey", xmlWriter);
+                    "getFirmaResponse", xmlWriter);
             }
         }
 
-        if (localSecretoTracker) {
+        if (local_returnTracker) {
             namespace = "http://ws.apache.org/axis2";
-            writeStartElement(null, namespace, "secreto", xmlWriter);
+            writeStartElement(null, namespace, "return", xmlWriter);
 
-            if (localSecreto == null) {
-                // write the nil attribute
+            if (local_return != null) {
+                try {
+                    org.apache.axiom.util.stax.XMLStreamWriterUtils.writeDataHandler(xmlWriter,
+                        local_return, null, true);
+                } catch (java.io.IOException ex) {
+                    throw new javax.xml.stream.XMLStreamException("Unable to read data handler for return",
+                        ex);
+                }
+            } else {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
                     xmlWriter);
-            } else {
-                xmlWriter.writeCharacters(localSecreto);
             }
 
             xmlWriter.writeEndElement();
@@ -333,9 +338,9 @@ public class Obey implements org.apache.axis2.databinding.ADBBean {
          * Postcondition: If this object is an element, the reader is positioned at its end element
          *                If this object is a complex type, the reader is positioned at the end element of its outer element
          */
-        public static Obey parse(javax.xml.stream.XMLStreamReader reader)
-            throws java.lang.Exception {
-            Obey object = new Obey();
+        public static GetFirmaResponse parse(
+            javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+            GetFirmaResponse object = new GetFirmaResponse();
 
             int event;
             javax.xml.namespace.QName currentQName = null;
@@ -367,12 +372,12 @@ public class Obey implements org.apache.axis2.databinding.ADBBean {
                         java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
                                     ":") + 1);
 
-                        if (!"obey".equals(type)) {
+                        if (!"getFirmaResponse".equals(type)) {
                             //find namespace for the prefix
                             java.lang.String nsUri = reader.getNamespaceContext()
                                                            .getNamespaceURI(nsPrefix);
 
-                            return (Obey) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
+                            return (GetFirmaResponse) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
                                 type, reader);
                         }
                     }
@@ -389,21 +394,20 @@ public class Obey implements org.apache.axis2.databinding.ADBBean {
 
                 if ((reader.isStartElement() &&
                         new javax.xml.namespace.QName(
-                            "http://ws.apache.org/axis2", "secreto").equals(
+                            "http://ws.apache.org/axis2", "return").equals(
                             reader.getName())) ||
-                        new javax.xml.namespace.QName("", "secreto").equals(
+                        new javax.xml.namespace.QName("", "return").equals(
                             reader.getName())) {
                     nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
                             "nil");
 
-                    if (!"true".equals(nillableValue) &&
-                            !"1".equals(nillableValue)) {
-                        java.lang.String content = reader.getElementText();
-
-                        object.setSecreto(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                                content));
+                    if ("true".equals(nillableValue) ||
+                            "1".equals(nillableValue)) {
+                        object.set_return(null);
+                        reader.next();
                     } else {
-                        reader.getElementText(); // throw away text nodes if any.
+                        object.set_return(org.apache.axiom.util.stax.XMLStreamReaderUtils.getDataHandlerFromElement(
+                                reader));
                     }
 
                     reader.next();

@@ -1,5 +1,5 @@
 /**
- * Command.java
+ * GetClaveResponse.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.7.4  Built on : Oct 21, 2016 (10:48:01 BST)
@@ -8,79 +8,46 @@ package org.apache.ws.axis2;
 
 
 /**
- *  Command bean class
+ *  GetClaveResponse bean class
  */
 @SuppressWarnings({"unchecked",
     "unused"
 })
-public class Command implements org.apache.axis2.databinding.ADBBean {
+public class GetClaveResponse implements org.apache.axis2.databinding.ADBBean {
     public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName("http://ws.apache.org/axis2",
-            "command", "ns1");
+            "getClaveResponse", "ns1");
 
     /**
-     * field for Orden
+     * field for _return
      */
-    protected java.lang.String localOrden;
+    protected javax.activation.DataHandler local_return;
 
     /*  This tracker boolean wil be used to detect whether the user called the set method
      *   for this attribute. It will be used to determine whether to include this field
      *   in the serialized XML
      */
-    protected boolean localOrdenTracker = false;
+    protected boolean local_returnTracker = false;
 
-    /**
-     * field for Secreto
-     */
-    protected java.lang.String localSecreto;
-
-    /*  This tracker boolean wil be used to detect whether the user called the set method
-     *   for this attribute. It will be used to determine whether to include this field
-     *   in the serialized XML
-     */
-    protected boolean localSecretoTracker = false;
-
-    public boolean isOrdenSpecified() {
-        return localOrdenTracker;
+    public boolean is_returnSpecified() {
+        return local_returnTracker;
     }
 
     /**
      * Auto generated getter method
-     * @return java.lang.String
+     * @return javax.activation.DataHandler
      */
-    public java.lang.String getOrden() {
-        return localOrden;
+    public javax.activation.DataHandler get_return() {
+        return local_return;
     }
 
     /**
      * Auto generated setter method
-     * @param param Orden
+     * @param param _return
      */
-    public void setOrden(java.lang.String param) {
-        localOrdenTracker = true;
+    public void set_return(javax.activation.DataHandler param) {
+        local_returnTracker = true;
 
-        this.localOrden = param;
-    }
-
-    public boolean isSecretoSpecified() {
-        return localSecretoTracker;
-    }
-
-    /**
-     * Auto generated getter method
-     * @return java.lang.String
-     */
-    public java.lang.String getSecreto() {
-        return localSecreto;
-    }
-
-    /**
-     * Auto generated setter method
-     * @param param Secreto
-     */
-    public void setSecreto(java.lang.String param) {
-        localSecretoTracker = true;
-
-        this.localSecreto = param;
+        this.local_return = param;
     }
 
     /**
@@ -124,41 +91,30 @@ public class Command implements org.apache.axis2.databinding.ADBBean {
                     (namespacePrefix.trim().length() > 0)) {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    namespacePrefix + ":command", xmlWriter);
+                    namespacePrefix + ":getClaveResponse", xmlWriter);
             } else {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    "command", xmlWriter);
+                    "getClaveResponse", xmlWriter);
             }
         }
 
-        if (localOrdenTracker) {
+        if (local_returnTracker) {
             namespace = "http://ws.apache.org/axis2";
-            writeStartElement(null, namespace, "orden", xmlWriter);
+            writeStartElement(null, namespace, "return", xmlWriter);
 
-            if (localOrden == null) {
-                // write the nil attribute
+            if (local_return != null) {
+                try {
+                    org.apache.axiom.util.stax.XMLStreamWriterUtils.writeDataHandler(xmlWriter,
+                        local_return, null, true);
+                } catch (java.io.IOException ex) {
+                    throw new javax.xml.stream.XMLStreamException("Unable to read data handler for return",
+                        ex);
+                }
+            } else {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
                     xmlWriter);
-            } else {
-                xmlWriter.writeCharacters(localOrden);
-            }
-
-            xmlWriter.writeEndElement();
-        }
-
-        if (localSecretoTracker) {
-            namespace = "http://ws.apache.org/axis2";
-            writeStartElement(null, namespace, "secreto", xmlWriter);
-
-            if (localSecreto == null) {
-                // write the nil attribute
-                writeAttribute("xsi",
-                    "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
-                    xmlWriter);
-            } else {
-                xmlWriter.writeCharacters(localSecreto);
             }
 
             xmlWriter.writeEndElement();
@@ -382,9 +338,9 @@ public class Command implements org.apache.axis2.databinding.ADBBean {
          * Postcondition: If this object is an element, the reader is positioned at its end element
          *                If this object is a complex type, the reader is positioned at the end element of its outer element
          */
-        public static Command parse(javax.xml.stream.XMLStreamReader reader)
-            throws java.lang.Exception {
-            Command object = new Command();
+        public static GetClaveResponse parse(
+            javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+            GetClaveResponse object = new GetClaveResponse();
 
             int event;
             javax.xml.namespace.QName currentQName = null;
@@ -416,12 +372,12 @@ public class Command implements org.apache.axis2.databinding.ADBBean {
                         java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
                                     ":") + 1);
 
-                        if (!"command".equals(type)) {
+                        if (!"getClaveResponse".equals(type)) {
                             //find namespace for the prefix
                             java.lang.String nsUri = reader.getNamespaceContext()
                                                            .getNamespaceURI(nsPrefix);
 
-                            return (Command) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
+                            return (GetClaveResponse) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
                                 type, reader);
                         }
                     }
@@ -438,49 +394,20 @@ public class Command implements org.apache.axis2.databinding.ADBBean {
 
                 if ((reader.isStartElement() &&
                         new javax.xml.namespace.QName(
-                            "http://ws.apache.org/axis2", "orden").equals(
+                            "http://ws.apache.org/axis2", "return").equals(
                             reader.getName())) ||
-                        new javax.xml.namespace.QName("", "orden").equals(
+                        new javax.xml.namespace.QName("", "return").equals(
                             reader.getName())) {
                     nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
                             "nil");
 
-                    if (!"true".equals(nillableValue) &&
-                            !"1".equals(nillableValue)) {
-                        java.lang.String content = reader.getElementText();
-
-                        object.setOrden(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                                content));
+                    if ("true".equals(nillableValue) ||
+                            "1".equals(nillableValue)) {
+                        object.set_return(null);
+                        reader.next();
                     } else {
-                        reader.getElementText(); // throw away text nodes if any.
-                    }
-
-                    reader.next();
-                } // End of if for expected property start element
-
-                else {
-                }
-
-                while (!reader.isStartElement() && !reader.isEndElement())
-                    reader.next();
-
-                if ((reader.isStartElement() &&
-                        new javax.xml.namespace.QName(
-                            "http://ws.apache.org/axis2", "secreto").equals(
-                            reader.getName())) ||
-                        new javax.xml.namespace.QName("", "secreto").equals(
-                            reader.getName())) {
-                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
-                            "nil");
-
-                    if (!"true".equals(nillableValue) &&
-                            !"1".equals(nillableValue)) {
-                        java.lang.String content = reader.getElementText();
-
-                        object.setSecreto(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                                content));
-                    } else {
-                        reader.getElementText(); // throw away text nodes if any.
+                        object.set_return(org.apache.axiom.util.stax.XMLStreamReaderUtils.getDataHandlerFromElement(
+                                reader));
                     }
 
                     reader.next();

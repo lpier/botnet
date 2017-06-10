@@ -1,11 +1,20 @@
 public class Tablon {
-	
-	public String command(String orden, String secreto){
-		return "";
+
+	public boolean setOrden(byte[] comando, byte[] firma, byte[] clave){
+		return true;
 	}
-	
-	public String obey(String secreto){
-		return "";
+
+	public byte[] getComando(){
+		byte[] b = null;
+		return b;
 	}
-	
+	public byte[] getFirma(){
+		byte[] b = null;
+		return b;
+	}
+	public byte[] getClave(){
+		byte[] b = null;
+		return b;
+	}
+
 }

@@ -1,5 +1,5 @@
 /**
- * CommandResponse.java
+ * GetFirma.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.7.4  Built on : Oct 21, 2016 (10:48:01 BST)
@@ -8,47 +8,14 @@ package org.apache.ws.axis2;
 
 
 /**
- *  CommandResponse bean class
+ *  GetFirma bean class
  */
 @SuppressWarnings({"unchecked",
     "unused"
 })
-public class CommandResponse implements org.apache.axis2.databinding.ADBBean {
+public class GetFirma implements org.apache.axis2.databinding.ADBBean {
     public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName("http://ws.apache.org/axis2",
-            "commandResponse", "ns1");
-
-    /**
-     * field for _return
-     */
-    protected java.lang.String local_return;
-
-    /*  This tracker boolean wil be used to detect whether the user called the set method
-     *   for this attribute. It will be used to determine whether to include this field
-     *   in the serialized XML
-     */
-    protected boolean local_returnTracker = false;
-
-    public boolean is_returnSpecified() {
-        return local_returnTracker;
-    }
-
-    /**
-     * Auto generated getter method
-     * @return java.lang.String
-     */
-    public java.lang.String get_return() {
-        return local_return;
-    }
-
-    /**
-     * Auto generated setter method
-     * @param param _return
-     */
-    public void set_return(java.lang.String param) {
-        local_returnTracker = true;
-
-        this.local_return = param;
-    }
+            "getFirma", "ns1");
 
     /**
      *
@@ -91,28 +58,12 @@ public class CommandResponse implements org.apache.axis2.databinding.ADBBean {
                     (namespacePrefix.trim().length() > 0)) {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    namespacePrefix + ":commandResponse", xmlWriter);
+                    namespacePrefix + ":getFirma", xmlWriter);
             } else {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    "commandResponse", xmlWriter);
+                    "getFirma", xmlWriter);
             }
-        }
-
-        if (local_returnTracker) {
-            namespace = "http://ws.apache.org/axis2";
-            writeStartElement(null, namespace, "return", xmlWriter);
-
-            if (local_return == null) {
-                // write the nil attribute
-                writeAttribute("xsi",
-                    "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
-                    xmlWriter);
-            } else {
-                xmlWriter.writeCharacters(local_return);
-            }
-
-            xmlWriter.writeEndElement();
         }
 
         xmlWriter.writeEndElement();
@@ -333,9 +284,9 @@ public class CommandResponse implements org.apache.axis2.databinding.ADBBean {
          * Postcondition: If this object is an element, the reader is positioned at its end element
          *                If this object is a complex type, the reader is positioned at the end element of its outer element
          */
-        public static CommandResponse parse(
-            javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
-            CommandResponse object = new CommandResponse();
+        public static GetFirma parse(javax.xml.stream.XMLStreamReader reader)
+            throws java.lang.Exception {
+            GetFirma object = new GetFirma();
 
             int event;
             javax.xml.namespace.QName currentQName = null;
@@ -367,12 +318,12 @@ public class CommandResponse implements org.apache.axis2.databinding.ADBBean {
                         java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
                                     ":") + 1);
 
-                        if (!"commandResponse".equals(type)) {
+                        if (!"getFirma".equals(type)) {
                             //find namespace for the prefix
                             java.lang.String nsUri = reader.getNamespaceContext()
                                                            .getNamespaceURI(nsPrefix);
 
-                            return (CommandResponse) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
+                            return (GetFirma) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
                                 type, reader);
                         }
                     }
@@ -383,34 +334,6 @@ public class CommandResponse implements org.apache.axis2.databinding.ADBBean {
                 java.util.Vector handledAttributes = new java.util.Vector();
 
                 reader.next();
-
-                while (!reader.isStartElement() && !reader.isEndElement())
-                    reader.next();
-
-                if ((reader.isStartElement() &&
-                        new javax.xml.namespace.QName(
-                            "http://ws.apache.org/axis2", "return").equals(
-                            reader.getName())) ||
-                        new javax.xml.namespace.QName("", "return").equals(
-                            reader.getName())) {
-                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
-                            "nil");
-
-                    if (!"true".equals(nillableValue) &&
-                            !"1".equals(nillableValue)) {
-                        java.lang.String content = reader.getElementText();
-
-                        object.set_return(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                                content));
-                    } else {
-                        reader.getElementText(); // throw away text nodes if any.
-                    }
-
-                    reader.next();
-                } // End of if for expected property start element
-
-                else {
-                }
 
                 while (!reader.isStartElement() && !reader.isEndElement())
                     reader.next();
