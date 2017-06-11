@@ -18,102 +18,36 @@ public class SetOrden implements org.apache.axis2.databinding.ADBBean {
             "setOrden", "ns1");
 
     /**
-     * field for Args0
+     * field for Comando
      */
-    protected javax.activation.DataHandler localArgs0;
+    protected java.lang.String localComando;
 
     /*  This tracker boolean wil be used to detect whether the user called the set method
      *   for this attribute. It will be used to determine whether to include this field
      *   in the serialized XML
      */
-    protected boolean localArgs0Tracker = false;
+    protected boolean localComandoTracker = false;
 
-    /**
-     * field for Args1
-     */
-    protected javax.activation.DataHandler localArgs1;
-
-    /*  This tracker boolean wil be used to detect whether the user called the set method
-     *   for this attribute. It will be used to determine whether to include this field
-     *   in the serialized XML
-     */
-    protected boolean localArgs1Tracker = false;
-
-    /**
-     * field for Args2
-     */
-    protected javax.activation.DataHandler localArgs2;
-
-    /*  This tracker boolean wil be used to detect whether the user called the set method
-     *   for this attribute. It will be used to determine whether to include this field
-     *   in the serialized XML
-     */
-    protected boolean localArgs2Tracker = false;
-
-    public boolean isArgs0Specified() {
-        return localArgs0Tracker;
+    public boolean isComandoSpecified() {
+        return localComandoTracker;
     }
 
     /**
      * Auto generated getter method
-     * @return javax.activation.DataHandler
+     * @return java.lang.String
      */
-    public javax.activation.DataHandler getArgs0() {
-        return localArgs0;
+    public java.lang.String getComando() {
+        return localComando;
     }
 
     /**
      * Auto generated setter method
-     * @param param Args0
+     * @param param Comando
      */
-    public void setArgs0(javax.activation.DataHandler param) {
-        localArgs0Tracker = true;
+    public void setComando(java.lang.String param) {
+        localComandoTracker = true;
 
-        this.localArgs0 = param;
-    }
-
-    public boolean isArgs1Specified() {
-        return localArgs1Tracker;
-    }
-
-    /**
-     * Auto generated getter method
-     * @return javax.activation.DataHandler
-     */
-    public javax.activation.DataHandler getArgs1() {
-        return localArgs1;
-    }
-
-    /**
-     * Auto generated setter method
-     * @param param Args1
-     */
-    public void setArgs1(javax.activation.DataHandler param) {
-        localArgs1Tracker = true;
-
-        this.localArgs1 = param;
-    }
-
-    public boolean isArgs2Specified() {
-        return localArgs2Tracker;
-    }
-
-    /**
-     * Auto generated getter method
-     * @return javax.activation.DataHandler
-     */
-    public javax.activation.DataHandler getArgs2() {
-        return localArgs2;
-    }
-
-    /**
-     * Auto generated setter method
-     * @param param Args2
-     */
-    public void setArgs2(javax.activation.DataHandler param) {
-        localArgs2Tracker = true;
-
-        this.localArgs2 = param;
+        this.localComando = param;
     }
 
     /**
@@ -165,64 +99,17 @@ public class SetOrden implements org.apache.axis2.databinding.ADBBean {
             }
         }
 
-        if (localArgs0Tracker) {
+        if (localComandoTracker) {
             namespace = "http://ws.apache.org/axis2";
-            writeStartElement(null, namespace, "args0", xmlWriter);
+            writeStartElement(null, namespace, "comando", xmlWriter);
 
-            if (localArgs0 != null) {
-                try {
-                    org.apache.axiom.util.stax.XMLStreamWriterUtils.writeDataHandler(xmlWriter,
-                        localArgs0, null, true);
-                } catch (java.io.IOException ex) {
-                    throw new javax.xml.stream.XMLStreamException("Unable to read data handler for args0",
-                        ex);
-                }
-            } else {
+            if (localComando == null) {
+                // write the nil attribute
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
                     xmlWriter);
-            }
-
-            xmlWriter.writeEndElement();
-        }
-
-        if (localArgs1Tracker) {
-            namespace = "http://ws.apache.org/axis2";
-            writeStartElement(null, namespace, "args1", xmlWriter);
-
-            if (localArgs1 != null) {
-                try {
-                    org.apache.axiom.util.stax.XMLStreamWriterUtils.writeDataHandler(xmlWriter,
-                        localArgs1, null, true);
-                } catch (java.io.IOException ex) {
-                    throw new javax.xml.stream.XMLStreamException("Unable to read data handler for args1",
-                        ex);
-                }
             } else {
-                writeAttribute("xsi",
-                    "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
-                    xmlWriter);
-            }
-
-            xmlWriter.writeEndElement();
-        }
-
-        if (localArgs2Tracker) {
-            namespace = "http://ws.apache.org/axis2";
-            writeStartElement(null, namespace, "args2", xmlWriter);
-
-            if (localArgs2 != null) {
-                try {
-                    org.apache.axiom.util.stax.XMLStreamWriterUtils.writeDataHandler(xmlWriter,
-                        localArgs2, null, true);
-                } catch (java.io.IOException ex) {
-                    throw new javax.xml.stream.XMLStreamException("Unable to read data handler for args2",
-                        ex);
-                }
-            } else {
-                writeAttribute("xsi",
-                    "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
-                    xmlWriter);
+                xmlWriter.writeCharacters(localComando);
             }
 
             xmlWriter.writeEndElement();
@@ -502,74 +389,21 @@ public class SetOrden implements org.apache.axis2.databinding.ADBBean {
 
                 if ((reader.isStartElement() &&
                         new javax.xml.namespace.QName(
-                            "http://ws.apache.org/axis2", "args0").equals(
+                            "http://ws.apache.org/axis2", "comando").equals(
                             reader.getName())) ||
-                        new javax.xml.namespace.QName("", "args0").equals(
+                        new javax.xml.namespace.QName("", "comando").equals(
                             reader.getName())) {
                     nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
                             "nil");
 
-                    if ("true".equals(nillableValue) ||
-                            "1".equals(nillableValue)) {
-                        object.setArgs0(null);
-                        reader.next();
+                    if (!"true".equals(nillableValue) &&
+                            !"1".equals(nillableValue)) {
+                        java.lang.String content = reader.getElementText();
+
+                        object.setComando(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                content));
                     } else {
-                        object.setArgs0(org.apache.axiom.util.stax.XMLStreamReaderUtils.getDataHandlerFromElement(
-                                reader));
-                    }
-
-                    reader.next();
-                } // End of if for expected property start element
-
-                else {
-                }
-
-                while (!reader.isStartElement() && !reader.isEndElement())
-                    reader.next();
-
-                if ((reader.isStartElement() &&
-                        new javax.xml.namespace.QName(
-                            "http://ws.apache.org/axis2", "args1").equals(
-                            reader.getName())) ||
-                        new javax.xml.namespace.QName("", "args1").equals(
-                            reader.getName())) {
-                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
-                            "nil");
-
-                    if ("true".equals(nillableValue) ||
-                            "1".equals(nillableValue)) {
-                        object.setArgs1(null);
-                        reader.next();
-                    } else {
-                        object.setArgs1(org.apache.axiom.util.stax.XMLStreamReaderUtils.getDataHandlerFromElement(
-                                reader));
-                    }
-
-                    reader.next();
-                } // End of if for expected property start element
-
-                else {
-                }
-
-                while (!reader.isStartElement() && !reader.isEndElement())
-                    reader.next();
-
-                if ((reader.isStartElement() &&
-                        new javax.xml.namespace.QName(
-                            "http://ws.apache.org/axis2", "args2").equals(
-                            reader.getName())) ||
-                        new javax.xml.namespace.QName("", "args2").equals(
-                            reader.getName())) {
-                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
-                            "nil");
-
-                    if ("true".equals(nillableValue) ||
-                            "1".equals(nillableValue)) {
-                        object.setArgs2(null);
-                        reader.next();
-                    } else {
-                        object.setArgs2(org.apache.axiom.util.stax.XMLStreamReaderUtils.getDataHandlerFromElement(
-                                reader));
+                        reader.getElementText(); // throw away text nodes if any.
                     }
 
                     reader.next();

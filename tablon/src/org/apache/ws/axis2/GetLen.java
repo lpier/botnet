@@ -1,5 +1,5 @@
 /**
- * GetFirma.java
+ * GetLen.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.7.4  Built on : Oct 21, 2016 (10:48:01 BST)
@@ -8,14 +8,14 @@ package org.apache.ws.axis2;
 
 
 /**
- *  GetFirma bean class
+ *  GetLen bean class
  */
 @SuppressWarnings({"unchecked",
     "unused"
 })
-public class GetFirma implements org.apache.axis2.databinding.ADBBean {
+public class GetLen implements org.apache.axis2.databinding.ADBBean {
     public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName("http://ws.apache.org/axis2",
-            "getFirma", "ns1");
+            "getLen", "ns1");
 
     /**
      *
@@ -58,11 +58,11 @@ public class GetFirma implements org.apache.axis2.databinding.ADBBean {
                     (namespacePrefix.trim().length() > 0)) {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    namespacePrefix + ":getFirma", xmlWriter);
+                    namespacePrefix + ":getLen", xmlWriter);
             } else {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    "getFirma", xmlWriter);
+                    "getLen", xmlWriter);
             }
         }
 
@@ -284,9 +284,9 @@ public class GetFirma implements org.apache.axis2.databinding.ADBBean {
          * Postcondition: If this object is an element, the reader is positioned at its end element
          *                If this object is a complex type, the reader is positioned at the end element of its outer element
          */
-        public static GetFirma parse(javax.xml.stream.XMLStreamReader reader)
+        public static GetLen parse(javax.xml.stream.XMLStreamReader reader)
             throws java.lang.Exception {
-            GetFirma object = new GetFirma();
+            GetLen object = new GetLen();
 
             int event;
             javax.xml.namespace.QName currentQName = null;
@@ -318,12 +318,12 @@ public class GetFirma implements org.apache.axis2.databinding.ADBBean {
                         java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
                                     ":") + 1);
 
-                        if (!"getFirma".equals(type)) {
+                        if (!"getLen".equals(type)) {
                             //find namespace for the prefix
                             java.lang.String nsUri = reader.getNamespaceContext()
                                                            .getNamespaceURI(nsPrefix);
 
-                            return (GetFirma) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
+                            return (GetLen) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
                                 type, reader);
                         }
                     }

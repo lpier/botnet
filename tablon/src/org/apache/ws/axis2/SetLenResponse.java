@@ -1,5 +1,5 @@
 /**
- * GetClave.java
+ * SetLenResponse.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.7.4  Built on : Oct 21, 2016 (10:48:01 BST)
@@ -8,14 +8,35 @@ package org.apache.ws.axis2;
 
 
 /**
- *  GetClave bean class
+ *  SetLenResponse bean class
  */
 @SuppressWarnings({"unchecked",
     "unused"
 })
-public class GetClave implements org.apache.axis2.databinding.ADBBean {
+public class SetLenResponse implements org.apache.axis2.databinding.ADBBean {
     public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName("http://ws.apache.org/axis2",
-            "getClave", "ns1");
+            "setLenResponse", "ns1");
+
+    /**
+     * field for _return
+     */
+    protected boolean local_return;
+
+    /**
+     * Auto generated getter method
+     * @return boolean
+     */
+    public boolean get_return() {
+        return local_return;
+    }
+
+    /**
+     * Auto generated setter method
+     * @param param _return
+     */
+    public void set_return(boolean param) {
+        this.local_return = param;
+    }
 
     /**
      *
@@ -58,13 +79,26 @@ public class GetClave implements org.apache.axis2.databinding.ADBBean {
                     (namespacePrefix.trim().length() > 0)) {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    namespacePrefix + ":getClave", xmlWriter);
+                    namespacePrefix + ":setLenResponse", xmlWriter);
             } else {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    "getClave", xmlWriter);
+                    "setLenResponse", xmlWriter);
             }
         }
+
+        namespace = "http://ws.apache.org/axis2";
+        writeStartElement(null, namespace, "return", xmlWriter);
+
+        if (false) {
+            throw new org.apache.axis2.databinding.ADBException(
+                "return cannot be null!!");
+        } else {
+            xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                    local_return));
+        }
+
+        xmlWriter.writeEndElement();
 
         xmlWriter.writeEndElement();
     }
@@ -284,9 +318,9 @@ public class GetClave implements org.apache.axis2.databinding.ADBBean {
          * Postcondition: If this object is an element, the reader is positioned at its end element
          *                If this object is a complex type, the reader is positioned at the end element of its outer element
          */
-        public static GetClave parse(javax.xml.stream.XMLStreamReader reader)
-            throws java.lang.Exception {
-            GetClave object = new GetClave();
+        public static SetLenResponse parse(
+            javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+            SetLenResponse object = new SetLenResponse();
 
             int event;
             javax.xml.namespace.QName currentQName = null;
@@ -318,12 +352,12 @@ public class GetClave implements org.apache.axis2.databinding.ADBBean {
                         java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
                                     ":") + 1);
 
-                        if (!"getClave".equals(type)) {
+                        if (!"setLenResponse".equals(type)) {
                             //find namespace for the prefix
                             java.lang.String nsUri = reader.getNamespaceContext()
                                                            .getNamespaceURI(nsPrefix);
 
-                            return (GetClave) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
+                            return (SetLenResponse) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
                                 type, reader);
                         }
                     }
@@ -334,6 +368,38 @@ public class GetClave implements org.apache.axis2.databinding.ADBBean {
                 java.util.Vector handledAttributes = new java.util.Vector();
 
                 reader.next();
+
+                while (!reader.isStartElement() && !reader.isEndElement())
+                    reader.next();
+
+                if ((reader.isStartElement() &&
+                        new javax.xml.namespace.QName(
+                            "http://ws.apache.org/axis2", "return").equals(
+                            reader.getName())) ||
+                        new javax.xml.namespace.QName("", "return").equals(
+                            reader.getName())) {
+                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
+                            "nil");
+
+                    if ("true".equals(nillableValue) ||
+                            "1".equals(nillableValue)) {
+                        throw new org.apache.axis2.databinding.ADBException(
+                            "The element: " + "return" + "  cannot be null");
+                    }
+
+                    java.lang.String content = reader.getElementText();
+
+                    object.set_return(org.apache.axis2.databinding.utils.ConverterUtil.convertToBoolean(
+                            content));
+
+                    reader.next();
+                } // End of if for expected property start element
+
+                else {
+                    // 1 - A start element we are not expecting indicates an invalid parameter was passed
+                    throw new org.apache.axis2.databinding.ADBException(
+                        "Unexpected subelement " + reader.getName());
+                }
 
                 while (!reader.isStartElement() && !reader.isEndElement())
                     reader.next();

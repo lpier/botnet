@@ -20,7 +20,7 @@ public class GetComandoResponse implements org.apache.axis2.databinding.ADBBean 
     /**
      * field for _return
      */
-    protected javax.activation.DataHandler local_return;
+    protected java.lang.String local_return;
 
     /*  This tracker boolean wil be used to detect whether the user called the set method
      *   for this attribute. It will be used to determine whether to include this field
@@ -34,9 +34,9 @@ public class GetComandoResponse implements org.apache.axis2.databinding.ADBBean 
 
     /**
      * Auto generated getter method
-     * @return javax.activation.DataHandler
+     * @return java.lang.String
      */
-    public javax.activation.DataHandler get_return() {
+    public java.lang.String get_return() {
         return local_return;
     }
 
@@ -44,7 +44,7 @@ public class GetComandoResponse implements org.apache.axis2.databinding.ADBBean 
      * Auto generated setter method
      * @param param _return
      */
-    public void set_return(javax.activation.DataHandler param) {
+    public void set_return(java.lang.String param) {
         local_returnTracker = true;
 
         this.local_return = param;
@@ -103,18 +103,13 @@ public class GetComandoResponse implements org.apache.axis2.databinding.ADBBean 
             namespace = "http://ws.apache.org/axis2";
             writeStartElement(null, namespace, "return", xmlWriter);
 
-            if (local_return != null) {
-                try {
-                    org.apache.axiom.util.stax.XMLStreamWriterUtils.writeDataHandler(xmlWriter,
-                        local_return, null, true);
-                } catch (java.io.IOException ex) {
-                    throw new javax.xml.stream.XMLStreamException("Unable to read data handler for return",
-                        ex);
-                }
-            } else {
+            if (local_return == null) {
+                // write the nil attribute
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
                     xmlWriter);
+            } else {
+                xmlWriter.writeCharacters(local_return);
             }
 
             xmlWriter.writeEndElement();
@@ -401,13 +396,14 @@ public class GetComandoResponse implements org.apache.axis2.databinding.ADBBean 
                     nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
                             "nil");
 
-                    if ("true".equals(nillableValue) ||
-                            "1".equals(nillableValue)) {
-                        object.set_return(null);
-                        reader.next();
+                    if (!"true".equals(nillableValue) &&
+                            !"1".equals(nillableValue)) {
+                        java.lang.String content = reader.getElementText();
+
+                        object.set_return(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                content));
                     } else {
-                        object.set_return(org.apache.axiom.util.stax.XMLStreamReaderUtils.getDataHandlerFromElement(
-                                reader));
+                        reader.getElementText(); // throw away text nodes if any.
                     }
 
                     reader.next();

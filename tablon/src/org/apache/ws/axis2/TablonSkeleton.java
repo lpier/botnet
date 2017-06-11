@@ -6,51 +6,41 @@
  */
 package org.apache.ws.axis2;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-
-import org.apache.axiom.attachments.ByteArrayDataSource;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.description.AxisService;
 import org.apache.axis2.engine.ServiceLifeCycle;
-import org.apache.commons.io.IOUtils;
 
 /**
  *  TablonSkeleton java skeleton for the axisService
  */
 public class TablonSkeleton implements TablonSkeletonInterface, ServiceLifeCycle {
-	public static byte[] comando = "rest".getBytes();
-	public static byte[] clave = "rest".getBytes();
-	public static byte[] firma = "rest".getBytes();
-
-
+    
+	public static String comando = "rest";
+	public static int len = 0;
     /**
      * Auto generated method signature
      *
-     * @param getClave0
-     * @return getClaveResponse1
+     * @param setLen0
+     * @return setLenResponse1
      */
-    public org.apache.ws.axis2.GetClaveResponse getClave(
-        org.apache.ws.axis2.GetClave getClave) {
-        GetClaveResponse response = new GetClaveResponse();
-		response.set_return(DHfromBytes(clave));
-		return response;
-
+    public org.apache.ws.axis2.SetLenResponse setLen(
+        org.apache.ws.axis2.SetLen setLen0) {
+        SetLenResponse response = new SetLenResponse();
+        int recv = setLen0.getLen();
+        response.set_return(true);
+        return response;
     }
 
     /**
      * Auto generated method signature
      *
-     * @param getFirma2
-     * @return getFirmaResponse3
+     * @param getLen2
+     * @return getLenResponse3
      */
-    public org.apache.ws.axis2.GetFirmaResponse getFirma(
-        org.apache.ws.axis2.GetFirma getFirma) {
-    	GetFirmaResponse response = new GetFirmaResponse();
-    	response.set_return(DHfromBytes(firma));
+    public org.apache.ws.axis2.GetLenResponse getLen(
+        org.apache.ws.axis2.GetLen getLen2) {
+    	GetLenResponse response = new GetLenResponse();
+    	response.set_return(len);
     	return response;
     }
 
@@ -62,17 +52,10 @@ public class TablonSkeleton implements TablonSkeletonInterface, ServiceLifeCycle
      */
     public org.apache.ws.axis2.SetOrdenResponse setOrden(
         org.apache.ws.axis2.SetOrden setOrden) {
-       SetOrdenResponse response = new SetOrdenResponse();
-       try {
-		comando = BytesFromDH(setOrden.getArgs0());
-		firma = BytesFromDH(setOrden.getArgs1());
-		clave = BytesFromDH(setOrden.getArgs2());
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-       response.set_return(true);
-       return response;
-    	
+    	SetOrdenResponse response = new SetOrdenResponse();
+     	comando = setOrden.getComando();
+     	response.set_return(true);
+     	return response;
     }
 
     /**
@@ -82,24 +65,10 @@ public class TablonSkeleton implements TablonSkeletonInterface, ServiceLifeCycle
      * @return getComandoResponse7
      */
     public org.apache.ws.axis2.GetComandoResponse getComando(
-        org.apache.ws.axis2.GetComando getComando) {
+        org.apache.ws.axis2.GetComando getComando6) {
     	GetComandoResponse response = new GetComandoResponse();
-    	response.set_return(DHfromBytes(comando));
-    	return response;
-    }
-    
-    private DataHandler DHfromBytes(byte[] array){
-    	
-    	DataSource dataSource = new ByteArrayDataSource(array);
-    	DataHandler dataHandler = new DataHandler(dataSource);
-    	return dataHandler;
-    	
-    }
-    
-    private byte[] BytesFromDH(DataHandler dh) throws IOException{
-    	InputStream inputDH = dh.getInputStream();
-    	byte[] b = IOUtils.toByteArray(inputDH);
-    	return b;
+        response.set_return(comando);
+        return response;
     }
 
 	@Override
@@ -113,6 +82,4 @@ public class TablonSkeleton implements TablonSkeletonInterface, ServiceLifeCycle
 		// TODO Auto-generated method stub
 		
 	}
-    
-  
 }

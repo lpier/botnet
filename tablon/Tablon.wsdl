@@ -5,9 +5,7 @@
             <xs:element name="setOrden">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element minOccurs="0" name="args0" nillable="true" type="xs:base64Binary"/>
-                        <xs:element minOccurs="0" name="args1" nillable="true" type="xs:base64Binary"/>
-                        <xs:element minOccurs="0" name="args2" nillable="true" type="xs:base64Binary"/>
+                        <xs:element minOccurs="0" name="comando" nillable="true" type="xs:string"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -18,15 +16,29 @@
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="getFirma">
+            <xs:element name="setLen">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="len" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="setLenResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="return" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getLen">
                 <xs:complexType>
                     <xs:sequence/>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="getFirmaResponse">
+            <xs:element name="getLenResponse">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary"/>
+                        <xs:element name="return" type="xs:int"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -38,41 +50,29 @@
             <xs:element name="getComandoResponse">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="getClave">
-                <xs:complexType>
-                    <xs:sequence/>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="getClaveResponse">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary"/>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
         </xs:schema>
     </wsdl:types>
-    <wsdl:message name="getFirmaRequest">
-        <wsdl:part name="parameters" element="ns:getFirma"/>
+    <wsdl:message name="setLenRequest">
+        <wsdl:part name="parameters" element="ns:setLen"/>
     </wsdl:message>
-    <wsdl:message name="getFirmaResponse">
-        <wsdl:part name="parameters" element="ns:getFirmaResponse"/>
-    </wsdl:message>
-    <wsdl:message name="getClaveRequest">
-        <wsdl:part name="parameters" element="ns:getClave"/>
-    </wsdl:message>
-    <wsdl:message name="getClaveResponse">
-        <wsdl:part name="parameters" element="ns:getClaveResponse"/>
+    <wsdl:message name="setLenResponse">
+        <wsdl:part name="parameters" element="ns:setLenResponse"/>
     </wsdl:message>
     <wsdl:message name="setOrdenRequest">
         <wsdl:part name="parameters" element="ns:setOrden"/>
     </wsdl:message>
     <wsdl:message name="setOrdenResponse">
         <wsdl:part name="parameters" element="ns:setOrdenResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getLenRequest">
+        <wsdl:part name="parameters" element="ns:getLen"/>
+    </wsdl:message>
+    <wsdl:message name="getLenResponse">
+        <wsdl:part name="parameters" element="ns:getLenResponse"/>
     </wsdl:message>
     <wsdl:message name="getComandoRequest">
         <wsdl:part name="parameters" element="ns:getComando"/>
@@ -81,17 +81,17 @@
         <wsdl:part name="parameters" element="ns:getComandoResponse"/>
     </wsdl:message>
     <wsdl:portType name="TablonPortType">
-        <wsdl:operation name="getFirma">
-            <wsdl:input message="ns:getFirmaRequest" wsaw:Action="urn:getFirma"/>
-            <wsdl:output message="ns:getFirmaResponse" wsaw:Action="urn:getFirmaResponse"/>
-        </wsdl:operation>
-        <wsdl:operation name="getClave">
-            <wsdl:input message="ns:getClaveRequest" wsaw:Action="urn:getClave"/>
-            <wsdl:output message="ns:getClaveResponse" wsaw:Action="urn:getClaveResponse"/>
+        <wsdl:operation name="setLen">
+            <wsdl:input message="ns:setLenRequest" wsaw:Action="urn:setLen"/>
+            <wsdl:output message="ns:setLenResponse" wsaw:Action="urn:setLenResponse"/>
         </wsdl:operation>
         <wsdl:operation name="setOrden">
             <wsdl:input message="ns:setOrdenRequest" wsaw:Action="urn:setOrden"/>
             <wsdl:output message="ns:setOrdenResponse" wsaw:Action="urn:setOrdenResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getLen">
+            <wsdl:input message="ns:getLenRequest" wsaw:Action="urn:getLen"/>
+            <wsdl:output message="ns:getLenResponse" wsaw:Action="urn:getLenResponse"/>
         </wsdl:operation>
         <wsdl:operation name="getComando">
             <wsdl:input message="ns:getComandoRequest" wsaw:Action="urn:getComando"/>
@@ -100,17 +100,8 @@
     </wsdl:portType>
     <wsdl:binding name="TablonSoap11Binding" type="ns:TablonPortType">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-        <wsdl:operation name="getFirma">
-            <soap:operation soapAction="urn:getFirma" style="document"/>
-            <wsdl:input>
-                <soap:body use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal"/>
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="getClave">
-            <soap:operation soapAction="urn:getClave" style="document"/>
+        <wsdl:operation name="setLen">
+            <soap:operation soapAction="urn:setLen" style="document"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
@@ -120,6 +111,15 @@
         </wsdl:operation>
         <wsdl:operation name="setOrden">
             <soap:operation soapAction="urn:setOrden" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getLen">
+            <soap:operation soapAction="urn:getLen" style="document"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
@@ -139,17 +139,8 @@
     </wsdl:binding>
     <wsdl:binding name="TablonSoap12Binding" type="ns:TablonPortType">
         <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-        <wsdl:operation name="getFirma">
-            <soap12:operation soapAction="urn:getFirma" style="document"/>
-            <wsdl:input>
-                <soap12:body use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap12:body use="literal"/>
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="getClave">
-            <soap12:operation soapAction="urn:getClave" style="document"/>
+        <wsdl:operation name="setLen">
+            <soap12:operation soapAction="urn:setLen" style="document"/>
             <wsdl:input>
                 <soap12:body use="literal"/>
             </wsdl:input>
@@ -159,6 +150,15 @@
         </wsdl:operation>
         <wsdl:operation name="setOrden">
             <soap12:operation soapAction="urn:setOrden" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getLen">
+            <soap12:operation soapAction="urn:getLen" style="document"/>
             <wsdl:input>
                 <soap12:body use="literal"/>
             </wsdl:input>
@@ -178,17 +178,8 @@
     </wsdl:binding>
     <wsdl:binding name="TablonHttpBinding" type="ns:TablonPortType">
         <http:binding verb="POST"/>
-        <wsdl:operation name="getFirma">
-            <http:operation location="getFirma"/>
-            <wsdl:input>
-                <mime:content type="application/xml" part="parameters"/>
-            </wsdl:input>
-            <wsdl:output>
-                <mime:content type="application/xml" part="parameters"/>
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="getClave">
-            <http:operation location="getClave"/>
+        <wsdl:operation name="setLen">
+            <http:operation location="setLen"/>
             <wsdl:input>
                 <mime:content type="application/xml" part="parameters"/>
             </wsdl:input>
@@ -198,6 +189,15 @@
         </wsdl:operation>
         <wsdl:operation name="setOrden">
             <http:operation location="setOrden"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getLen">
+            <http:operation location="getLen"/>
             <wsdl:input>
                 <mime:content type="application/xml" part="parameters"/>
             </wsdl:input>

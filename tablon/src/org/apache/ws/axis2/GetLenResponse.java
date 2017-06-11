@@ -1,5 +1,5 @@
 /**
- * GetClaveResponse.java
+ * GetLenResponse.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.7.4  Built on : Oct 21, 2016 (10:48:01 BST)
@@ -8,35 +8,25 @@ package org.apache.ws.axis2;
 
 
 /**
- *  GetClaveResponse bean class
+ *  GetLenResponse bean class
  */
 @SuppressWarnings({"unchecked",
     "unused"
 })
-public class GetClaveResponse implements org.apache.axis2.databinding.ADBBean {
+public class GetLenResponse implements org.apache.axis2.databinding.ADBBean {
     public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName("http://ws.apache.org/axis2",
-            "getClaveResponse", "ns1");
+            "getLenResponse", "ns1");
 
     /**
      * field for _return
      */
-    protected javax.activation.DataHandler local_return;
-
-    /*  This tracker boolean wil be used to detect whether the user called the set method
-     *   for this attribute. It will be used to determine whether to include this field
-     *   in the serialized XML
-     */
-    protected boolean local_returnTracker = false;
-
-    public boolean is_returnSpecified() {
-        return local_returnTracker;
-    }
+    protected int local_return;
 
     /**
      * Auto generated getter method
-     * @return javax.activation.DataHandler
+     * @return int
      */
-    public javax.activation.DataHandler get_return() {
+    public int get_return() {
         return local_return;
     }
 
@@ -44,9 +34,7 @@ public class GetClaveResponse implements org.apache.axis2.databinding.ADBBean {
      * Auto generated setter method
      * @param param _return
      */
-    public void set_return(javax.activation.DataHandler param) {
-        local_returnTracker = true;
-
+    public void set_return(int param) {
         this.local_return = param;
     }
 
@@ -91,34 +79,26 @@ public class GetClaveResponse implements org.apache.axis2.databinding.ADBBean {
                     (namespacePrefix.trim().length() > 0)) {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    namespacePrefix + ":getClaveResponse", xmlWriter);
+                    namespacePrefix + ":getLenResponse", xmlWriter);
             } else {
                 writeAttribute("xsi",
                     "http://www.w3.org/2001/XMLSchema-instance", "type",
-                    "getClaveResponse", xmlWriter);
+                    "getLenResponse", xmlWriter);
             }
         }
 
-        if (local_returnTracker) {
-            namespace = "http://ws.apache.org/axis2";
-            writeStartElement(null, namespace, "return", xmlWriter);
+        namespace = "http://ws.apache.org/axis2";
+        writeStartElement(null, namespace, "return", xmlWriter);
 
-            if (local_return != null) {
-                try {
-                    org.apache.axiom.util.stax.XMLStreamWriterUtils.writeDataHandler(xmlWriter,
-                        local_return, null, true);
-                } catch (java.io.IOException ex) {
-                    throw new javax.xml.stream.XMLStreamException("Unable to read data handler for return",
-                        ex);
-                }
-            } else {
-                writeAttribute("xsi",
-                    "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
-                    xmlWriter);
-            }
-
-            xmlWriter.writeEndElement();
+        if (local_return == java.lang.Integer.MIN_VALUE) {
+            throw new org.apache.axis2.databinding.ADBException(
+                "return cannot be null!!");
+        } else {
+            xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                    local_return));
         }
+
+        xmlWriter.writeEndElement();
 
         xmlWriter.writeEndElement();
     }
@@ -338,9 +318,9 @@ public class GetClaveResponse implements org.apache.axis2.databinding.ADBBean {
          * Postcondition: If this object is an element, the reader is positioned at its end element
          *                If this object is a complex type, the reader is positioned at the end element of its outer element
          */
-        public static GetClaveResponse parse(
+        public static GetLenResponse parse(
             javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
-            GetClaveResponse object = new GetClaveResponse();
+            GetLenResponse object = new GetLenResponse();
 
             int event;
             javax.xml.namespace.QName currentQName = null;
@@ -372,12 +352,12 @@ public class GetClaveResponse implements org.apache.axis2.databinding.ADBBean {
                         java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
                                     ":") + 1);
 
-                        if (!"getClaveResponse".equals(type)) {
+                        if (!"getLenResponse".equals(type)) {
                             //find namespace for the prefix
                             java.lang.String nsUri = reader.getNamespaceContext()
                                                            .getNamespaceURI(nsPrefix);
 
-                            return (GetClaveResponse) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
+                            return (GetLenResponse) org.apache.ws.axis2.ExtensionMapper.getTypeObject(nsUri,
                                 type, reader);
                         }
                     }
@@ -403,17 +383,22 @@ public class GetClaveResponse implements org.apache.axis2.databinding.ADBBean {
 
                     if ("true".equals(nillableValue) ||
                             "1".equals(nillableValue)) {
-                        object.set_return(null);
-                        reader.next();
-                    } else {
-                        object.set_return(org.apache.axiom.util.stax.XMLStreamReaderUtils.getDataHandlerFromElement(
-                                reader));
+                        throw new org.apache.axis2.databinding.ADBException(
+                            "The element: " + "return" + "  cannot be null");
                     }
+
+                    java.lang.String content = reader.getElementText();
+
+                    object.set_return(org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(
+                            content));
 
                     reader.next();
                 } // End of if for expected property start element
 
                 else {
+                    // 1 - A start element we are not expecting indicates an invalid parameter was passed
+                    throw new org.apache.axis2.databinding.ADBException(
+                        "Unexpected subelement " + reader.getName());
                 }
 
                 while (!reader.isStartElement() && !reader.isEndElement())
