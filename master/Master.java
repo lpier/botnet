@@ -1,4 +1,5 @@
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
@@ -27,6 +28,10 @@ import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 public class Master {
 
+	private static final String CODIF = "ISO-8859-1";
+	private static final int BLOQUE = 16;
+	private static final String REST = "rest";
+	
 	private static OMFactory omFactory = OMAbstractFactory.getOMFactory();
 	private static OMNamespace omNameSpace = omFactory.createOMNamespace("http://ws.apache.org/axis2", "nsTablon");
 	private static Options options = new Options();
@@ -34,6 +39,7 @@ public class Master {
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
+		
 		System.out.println("orden;objetivo;duracion");
 		String info = in.nextLine();
 		boolean status = publicarComando(info);
@@ -50,6 +56,9 @@ public class Master {
 		} catch (AxisFault e) {
 			e.printStackTrace();
 		}
+		
+		
+		
 		options.setTo(new EndpointReference(urlTablon));
 		options.setAction("urn:setOrden");
 		options.activate(getConf());
@@ -73,19 +82,44 @@ public class Master {
 		return status;
 
 	}
+	
+	
+	private static byte[] padTo16Blocks(String info) throws UnsupportedEncodingException{
+		byte[] bytes = info.getBytes(StandardCharsets.ISO_8859_1);
+		int resto = bytes.length % BLOQUE;
+		int rellenoLen = BLOQUE - resto;
+		byte[] paddedBytes = new byte[bytes.length + rellenoLen];
+		System.arraycopy(bytes, 0, paddedBytes, 0, bytes.length);
 
-	public static void generarClave() {
+		for(int i = bytes.length ; i < paddedBytes.length ; i++){
+			paddedBytes[i] = (byte) -0x80;			
+		}
+		
+		return paddedBytes;
+	}
+	
+	private static String encriptar(String comando){
+		
+		
+		System.out.println("VOY A ENCRIPTAR!");
+		// generar clave secreta
 		Cipher cipher = null;
-		byte[] password = null;
 		SecretKeySpec sKey = null;
+		byte[] comandoBytes = null;
 		try {
-			password = "JavaJavaJavaJava".getBytes("UTF-8");
+			comandoBytes = comando.getBytes("UTF-8");
+			
+//			comandoBytes = padTo16Blocks(comando);
+					
 			byte[] pkey = "keykeykekeykeykekeykeykekeykeyke".getBytes("UTF-8");
 			sKey = new SecretKeySpec(pkey, "AES");
+//			cipher = Cipher.getInstance("aes/cbc/pkcs7padding");
+			cipher = Cipher.getInstance("AES/ECB/PKCS7Padding");
 
-			cipher = Cipher.getInstance("AES/ECB/NoPadding");
-			System.out.println(" --> + " + new String(password));
-
+//			cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+			
+			System.out.println(" -- encriptar --> " + new String(comandoBytes));
+			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -96,16 +130,29 @@ public class Master {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		byte[] cText = new byte[password.length];
+	
+		// cifrar texto
+		byte[] cifrado = new byte[comandoBytes.length];
+		
 		try {
 			cipher.init(Cipher.ENCRYPT_MODE, sKey);
-			int cLen = cipher.update(password, 0, password.length, cText, 0);
-			cLen += cipher.doFinal(cText, cLen);
-			System.out.println("encriptado : " + cText.toString().getBytes("UTF-8"));
-			String encoded = new String(cText, "ISO-8859-1");
-			System.out.println(encoded);
-			desencriptar(encoded,cLen);
+			int lenCifrado = cipher.update(comandoBytes, 0, comandoBytes.length, cifrado, 0);
+			System.out.println(lenCifrado + " ---- " + cifrado.length );
+			lenCifrado = cifrado.length;
+			System.out.println(" ***** > "+cipher.getOutputSize(lenCifrado));
+			byte[] output = new byte[cipher.getOutputSize(lenCifrado)];
+			
+			lenCifrado += cipher.doFinal(output, lenCifrado);
+
+			String encoded = new String(cifrado, CODIF);
+			
+			boolean exito = publicarLen(lenCifrado);
+			desencriptar(encoded, lenCifrado);
+			
+			return encoded;
+			
+			
+			
 		} catch (InvalidKeyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -122,11 +169,55 @@ public class Master {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return REST;
+		
+		
+	}
 
+	public static boolean publicarLen(int lenCifrado){
+		ServiceClient cliente = null;
+		try {
+			cliente = new ServiceClient();
+		} catch (AxisFault e) {
+			e.printStackTrace();
+		}
+		options.setTo(new EndpointReference(urlTablon));
+		options.setAction("urn:setLen");
+		options.activate(getConf());
+		cliente.setOptions(options);
+		
+		OMElement metodo = omFactory.createOMElement("setLen", omNameSpace);
+		OMElement parametro = omFactory.createOMElement("len", omNameSpace);
+		parametro.setText(String.valueOf(lenCifrado));
+		metodo.addChild(parametro);
+
+		OMElement response = null;
+
+		try {
+			response = cliente.sendReceive(metodo);
+		} catch (AxisFault e) {
+			e.printStackTrace();
+			System.out.println("Ups...");
+			return false;
+		}finally{
+			try {
+				cliente.cleanup();
+				cliente.cleanupTransport();
+
+			} catch (AxisFault e) {
+				e.printStackTrace();
+			}
+			
+		}
+		boolean status = Boolean.parseBoolean(response.getFirstElement().getText());
+		return status;
 	}
 	
 	
 	public static void desencriptar(String cText, int cLen){
+		System.out.println("VOY A DESENCRIPTAR!");
+
+		
 		Cipher cipher = null;
 		byte[] plainText = new byte[cLen];
 		SecretKeySpec sKey = null;
@@ -134,8 +225,12 @@ public class Master {
 		try {
 			pkey = "keykeykekeykeykekeykeykekeykeyke".getBytes("UTF-8");
 		
-		sKey = new SecretKeySpec(pkey, "AES");
-		cipher = Cipher.getInstance("AES/ECB/NoPadding");
+//		sKey = new SecretKeySpec(pkey, "AES");
+//		cipher = Cipher.getInstance("AES/ECB/NoPadding");
+			
+			sKey = new SecretKeySpec(pkey, "DSA");
+			
+			cipher = Cipher.getInstance("SHA1withDSA");
 		cipher.init(Cipher.DECRYPT_MODE, sKey);
 		byte[] encoded = cText.getBytes("ISO-8859-1");
 		int plen = cipher.update(encoded, 0, cLen, plainText, 0);
