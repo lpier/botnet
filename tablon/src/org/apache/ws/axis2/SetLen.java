@@ -20,13 +20,23 @@ public class SetLen implements org.apache.axis2.databinding.ADBBean {
     /**
      * field for Len
      */
-    protected int localLen;
+    protected java.lang.String localLen;
+
+    /*  This tracker boolean wil be used to detect whether the user called the set method
+     *   for this attribute. It will be used to determine whether to include this field
+     *   in the serialized XML
+     */
+    protected boolean localLenTracker = false;
+
+    public boolean isLenSpecified() {
+        return localLenTracker;
+    }
 
     /**
      * Auto generated getter method
-     * @return int
+     * @return java.lang.String
      */
-    public int getLen() {
+    public java.lang.String getLen() {
         return localLen;
     }
 
@@ -34,7 +44,9 @@ public class SetLen implements org.apache.axis2.databinding.ADBBean {
      * Auto generated setter method
      * @param param Len
      */
-    public void setLen(int param) {
+    public void setLen(java.lang.String param) {
+        localLenTracker = true;
+
         this.localLen = param;
     }
 
@@ -87,18 +99,21 @@ public class SetLen implements org.apache.axis2.databinding.ADBBean {
             }
         }
 
-        namespace = "http://ws.apache.org/axis2";
-        writeStartElement(null, namespace, "len", xmlWriter);
+        if (localLenTracker) {
+            namespace = "http://ws.apache.org/axis2";
+            writeStartElement(null, namespace, "len", xmlWriter);
 
-        if (localLen == java.lang.Integer.MIN_VALUE) {
-            throw new org.apache.axis2.databinding.ADBException(
-                "len cannot be null!!");
-        } else {
-            xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                    localLen));
+            if (localLen == null) {
+                // write the nil attribute
+                writeAttribute("xsi",
+                    "http://www.w3.org/2001/XMLSchema-instance", "nil", "1",
+                    xmlWriter);
+            } else {
+                xmlWriter.writeCharacters(localLen);
+            }
+
+            xmlWriter.writeEndElement();
         }
-
-        xmlWriter.writeEndElement();
 
         xmlWriter.writeEndElement();
     }
@@ -381,24 +396,20 @@ public class SetLen implements org.apache.axis2.databinding.ADBBean {
                     nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
                             "nil");
 
-                    if ("true".equals(nillableValue) ||
-                            "1".equals(nillableValue)) {
-                        throw new org.apache.axis2.databinding.ADBException(
-                            "The element: " + "len" + "  cannot be null");
+                    if (!"true".equals(nillableValue) &&
+                            !"1".equals(nillableValue)) {
+                        java.lang.String content = reader.getElementText();
+
+                        object.setLen(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                content));
+                    } else {
+                        reader.getElementText(); // throw away text nodes if any.
                     }
-
-                    java.lang.String content = reader.getElementText();
-
-                    object.setLen(org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(
-                            content));
 
                     reader.next();
                 } // End of if for expected property start element
 
                 else {
-                    // 1 - A start element we are not expecting indicates an invalid parameter was passed
-                    throw new org.apache.axis2.databinding.ADBException(
-                        "Unexpected subelement " + reader.getName());
                 }
 
                 while (!reader.isStartElement() && !reader.isEndElement())

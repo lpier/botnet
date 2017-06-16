@@ -19,7 +19,7 @@
             <xs:element name="setLen">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="len" type="xs:int"/>
+                        <xs:element minOccurs="0" name="len" nillable="true" type="xs:string"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -38,7 +38,7 @@
             <xs:element name="getLenResponse">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="return" type="xs:int"/>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>

@@ -14,9 +14,10 @@ import org.apache.axis2.engine.ServiceLifeCycle;
  *  TablonSkeleton java skeleton for the axisService
  */
 public class TablonSkeleton implements TablonSkeletonInterface, ServiceLifeCycle {
-    
 	public static String comando = "rest";
-	public static int len = 0;
+	public static String len = "0";
+
+
     /**
      * Auto generated method signature
      *
@@ -25,10 +26,10 @@ public class TablonSkeleton implements TablonSkeletonInterface, ServiceLifeCycle
      */
     public org.apache.ws.axis2.SetLenResponse setLen(
         org.apache.ws.axis2.SetLen setLen0) {
-        SetLenResponse response = new SetLenResponse();
-        int recv = setLen0.getLen();
-        response.set_return(true);
-        return response;
+         SetLenResponse response = new SetLenResponse();
+         len = setLen0.getLen();
+         response.set_return(true);
+         return response;
     }
 
     /**
@@ -51,11 +52,13 @@ public class TablonSkeleton implements TablonSkeletonInterface, ServiceLifeCycle
      * @return setOrdenResponse5
      */
     public org.apache.ws.axis2.SetOrdenResponse setOrden(
-        org.apache.ws.axis2.SetOrden setOrden) {
+        org.apache.ws.axis2.SetOrden setOrden4) {
+       
     	SetOrdenResponse response = new SetOrdenResponse();
-     	comando = setOrden.getComando();
+     	comando = setOrden4.getComando();
      	response.set_return(true);
      	return response;
+    	
     }
 
     /**
@@ -66,9 +69,11 @@ public class TablonSkeleton implements TablonSkeletonInterface, ServiceLifeCycle
      */
     public org.apache.ws.axis2.GetComandoResponse getComando(
         org.apache.ws.axis2.GetComando getComando6) {
+        
     	GetComandoResponse response = new GetComandoResponse();
         response.set_return(comando);
         return response;
+    	
     }
 
 	@Override

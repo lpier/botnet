@@ -7,7 +7,7 @@ public class Tablon {
 		return true;
 	}
 	
-	public Boolean setLen(int len){
+	public Boolean setLen(String len){
 		return true;
 	}
 	
@@ -15,8 +15,8 @@ public class Tablon {
 		return "";
 	}
 
-	public int getLen(){
-		return 0;	
+	public String getLen(){
+		return "";	
 	}
 	
 }
